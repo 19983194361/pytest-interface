@@ -2,7 +2,7 @@ import openpyxl
 from utils.paths import DATA_DIR
 
 
-class HandleData:
+class GetCaseData:
     """用例数据处理类"""
 
     def get(self, file=None, sheet=None):
@@ -13,8 +13,8 @@ class HandleData:
         :return: 处理后的数据
         """
         if file.endswith('.xlsx'):
-            file_path = DATA_DIR + '\\' + file
-            print(self.get_excel_data(filename=file_path, sheetname=sheet))
+            file_path = DATA_DIR + '\\excel\\' + file
+            return self.get_excel_data(filename=file_path, sheetname=sheet)
 
     def get_excel_data(self, filename=None, sheetname=None):
         """
@@ -23,8 +23,17 @@ class HandleData:
         :param sheetname: 表名
         :return: 处理后的数据
         """
-        pass
+        excel_obj = openpyxl.load_workbook(filename=filename)
+        sheet_obj = excel_obj[sheetname]
+        data_set = list(sheet_obj.rows)
+
+        keys = [key.value for key in data_set[0]]
+
+        data = {'normal': [], 'except': []}
+        for line in data_set[1:]:
+            item = dict(zip(keys, [value.value for value in line]))
+            data['normal'].append(item) if item['type'] == 'normal' else data['except'].append(item)
+        return data
 
 
-a = HandleData()
-a.get('platform.xlsx', sheet='login')
+data_obj = GetCaseData()

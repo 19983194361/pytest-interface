@@ -1,7 +1,7 @@
 class TestLogin:
 
     def test_login_success(self):
-        pass
+        print('success')
 
     def test_login_fail(self):
-        pass
+        print('fail')

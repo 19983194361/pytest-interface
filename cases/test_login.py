@@ -1,5 +1,4 @@
 import pytest
-import requests
 from utils.handle_data import data_obj
 from utils.handle_request import send
 
@@ -10,7 +9,6 @@ class TestLogin:
     # 获取用例数据集
     cases = data_obj.get(file='platform.xlsx', sheet='login')
 
-    @pytest.mark.skip
     @pytest.mark.parametrize('case', cases['normal'])
     def test_login_success(self, case):
         """
@@ -18,8 +16,10 @@ class TestLogin:
         :param case: 用例数据
         :return: None
         """
-        response = send(case=case)
-        print(case['name'])
+        try:
+            response = send(case=case)
+        except Exception as e:
+            raise e
 
     @pytest.mark.parametrize('case', cases['except'])
     def test_login_fail(self, case):
@@ -28,4 +28,7 @@ class TestLogin:
         :param case: 用例数据
         :return: None
         """
-        print(case['name'])
+        try:
+            response = send(case=case)
+        except Exception as e:
+            raise e

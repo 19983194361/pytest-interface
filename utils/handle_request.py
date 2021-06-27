@@ -1,10 +1,11 @@
 import requests
+from utils.handle_config import get_config
 
 
 def send(case):
     name = case['name']
     method = case['method'].upper()
-    url = case['path']
+    url = get_config('environment')['base_url'] + case['path']
     headers = eval(case['headers'])
     if method == 'GET':
         params = eval(case['param'])

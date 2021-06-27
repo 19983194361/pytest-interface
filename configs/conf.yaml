@@ -1,0 +1,3 @@
+environment:
+  executor: suanmiao
+  base_url: http://www.suanmiao.site:8888/

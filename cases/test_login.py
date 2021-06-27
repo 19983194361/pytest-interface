@@ -1,6 +1,7 @@
 import pytest
 from utils.handle_data import data_obj
 from utils.handle_request import send
+from utils.handle_assert import assert_obj
 
 
 class TestLogin:
@@ -16,10 +17,13 @@ class TestLogin:
         :param case: 用例数据
         :return: None
         """
+        name = case['name']
         try:
             response = send(case=case)
         except Exception as e:
             raise e
+
+        assert_obj.validate(expect=eval(case['except']), actual=response, name=name)
 
     @pytest.mark.parametrize('case', cases['except'])
     def test_login_fail(self, case):
@@ -28,7 +32,10 @@ class TestLogin:
         :param case: 用例数据
         :return: None
         """
+        name = case['name']
         try:
             response = send(case=case)
         except Exception as e:
             raise e
+
+        assert_obj.validate(expect=eval(case['except']), actual=response, name=name)

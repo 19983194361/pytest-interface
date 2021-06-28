@@ -2,6 +2,7 @@ import pytest
 from utils.handle_data import data_obj
 from utils.handle_request import send
 from utils.handle_assert import assert_obj
+from utils.handle_log import logger
 
 
 class TestLogin:
@@ -19,11 +20,14 @@ class TestLogin:
         """
         name = case['name']
         try:
+            logger.info('[{}]->开始执行用例！'.format(name))
             response = send(case=case)
+            logger.info('[{}]->请求成功！'.format(name))
         except Exception as e:
+            logger.error('[{}]->请求失败！\n{}'.format(name, e))
             raise e
 
-        assert_obj.validate(expect=eval(case['except']), actual=response, name=name)
+        assert_obj.validate(expect=eval(case['expect']), actual=response, name=name)
 
     @pytest.mark.parametrize('case', cases['except'])
     def test_login_fail(self, case):
@@ -34,8 +38,11 @@ class TestLogin:
         """
         name = case['name']
         try:
+            logger.info('[{}]->开始执行用例！'.format(name))
             response = send(case=case)
+            logger.info('[{}]->请求成功！'.format(name))
         except Exception as e:
+            logger.error('[{}]->请求失败！\n{}'.format(name, e))
             raise e
 
-        assert_obj.validate(expect=eval(case['except']), actual=response, name=name)
+        assert_obj.validate(expect=eval(case['expect']), actual=response, name=name)

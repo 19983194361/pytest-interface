@@ -18,6 +18,9 @@ class GetCaseData:
         elif file.endswith('.py'):
             file_path = DATA_DIR + '\\python\\' + file
             return self.get_python_data(filename=file_path)
+        elif file.endswith('.txt'):
+            file_path = DATA_DIR + '\\txt\\' + file
+            return self.get_txt_data(filename=file_path)
 
     def get_excel_data(self, filename=None, sheetname=None):
         """
@@ -53,6 +56,22 @@ class GetCaseData:
         data = {'normal': [], 'except': []}
         for values in data_set[1:]:
             item = dict(zip(data_set[0], values))
+            data['normal'].append(item) if item['type'] == 'normal' else data['except'].append(item)
+        return data
+
+    def get_txt_data(self, filename=None):
+        """
+        读取txt用例数据集并返回
+        :param filename: 数据保存txt文件名称
+        :return: 用例数据集
+        """
+        with open(file=filename, mode='r', encoding='utf-8') as f:
+            contents = f.readlines()
+        keys = eval(contents[0])
+
+        data = {'normal': [], 'except': []}
+        for values in contents[1:]:
+            item = dict(zip(keys, eval(values)))
             data['normal'].append(item) if item['type'] == 'normal' else data['except'].append(item)
         return data
 

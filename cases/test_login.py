@@ -11,7 +11,8 @@ class TestLogin:
     # 获取用例数据集
     # cases = data_obj.get(file='platform.xlsx', sheet='login')
     # cases = data_obj.get(file='login.py')
-    cases = data_obj.get(file='login.txt')
+    # cases = data_obj.get(file='login.txt')
+    cases = data_obj.get(file='login.yaml')
 
     @pytest.mark.parametrize('case', cases['normal'])
     def test_login_success(self, case):
